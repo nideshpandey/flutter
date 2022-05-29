@@ -21,71 +21,82 @@ class _MyAppState extends State<MyApp> {
     return (MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      home: Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: (){
-          setState(() {
-            amountController.clear();
-            tipController.clear();
-            totalTipStatus = false;
-          });
-        }, child: const Icon(Icons.refresh),),
-        body: Center(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Enter the amount: '),
-            Padding(
-              padding: const EdgeInsets.all(17.0),
-              child: SizedBox(
-                width: 70,
-                child: TextField(
-                  controller: amountController,
-                  textAlign: TextAlign.center,
-                  decoration: const InputDecoration(
-                      hintText: 'Rs.100',
-                      labelStyle: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 17)),
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
+      home: SafeArea(
+        child: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              setState(() {
+                amountController.clear();
+                tipController.clear();
+                totalTipStatus = false;
+              });
+            },
+            child: const Icon(Icons.refresh),
+          ),
+          body: Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: totalTipStatus
+                      ? Text(
+                          'Tip amount: Rs $totalTipAmount',
+                          style: const TextStyle(fontSize: 30),
+                        )
+                      : const Text(''),
                 ),
               ),
-            ),
-            const Text('Enter tip percent: '),
-            Padding(
-              padding: const EdgeInsets.all(17.0),
-              child: SizedBox(
-                width: 50,
-                child: TextField(
-                  controller: tipController,
-                  textAlign: TextAlign.center,
-                  decoration: const InputDecoration(
-                      hintText: '5%',
-                      labelStyle: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 17)),
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
+              const Text('Enter the amount: '),
+              Padding(
+                padding: const EdgeInsets.all(17.0),
+                child: SizedBox(
+                  width: 70,
+                  child: TextField(
+                    controller: amountController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                        hintText: 'Rs.100',
+                        labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 17)),
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                  ),
                 ),
               ),
-            ),
-            const Padding(padding: EdgeInsets.only(top: 20)),
-            TextButton(
-              onPressed: calculateTip,
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+              const Text('Enter tip percent: '),
+              Padding(
+                padding: const EdgeInsets.all(17.0),
+                child: SizedBox(
+                  width: 50,
+                  child: TextField(
+                    controller: tipController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                        hintText: '5%',
+                        labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 17)),
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                  ),
+                ),
               ),
-              child: const Text(
-                'Calculate',
-                style: TextStyle(color: Colors.black),
+              const Padding(padding: EdgeInsets.only(top: 20)),
+              TextButton(
+                onPressed: calculateTip,
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.green),
+                ),
+                child: const Text(
+                  'Calculate',
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: totalTipStatus
-                  ? Text('The tip amount is: Rs $totalTipAmount')
-                  : const Text(''),
-            )
-          ],
-        )),
+            ],
+          )),
+        ),
       ),
     ));
   }
@@ -95,7 +106,7 @@ class _MyAppState extends State<MyApp> {
     final tip = double.parse(tipController.text);
 
     setState(() {
-      totalTipAmount = (totalAmount * (tip/100 )).toStringAsFixed(2);
+      totalTipAmount = (totalAmount * (tip / 100)).toStringAsFixed(2);
       totalTipStatus = true;
     });
   }
