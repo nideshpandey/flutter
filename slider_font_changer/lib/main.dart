@@ -18,6 +18,15 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            setState(() {
+              textController.clear();
+            });
+          },
+          label: const Text('Clear'),
+          icon: const Icon(Icons.refresh),
+        ),
         body: SafeArea(
           child: Column(children: [
             const Text('Change the Font size with the slider.'),
@@ -29,16 +38,18 @@ class _MyAppState extends State<MyApp> {
                 controller: textController,
               ),
             ),
-            Slider(
-              value: fontSize,
-              min: 10,
-              max: 100,
-        
-              onChanged: (newSize) {
-                setState(() {
-                  fontSize = newSize;
-                });
-              },
+            Padding(
+              padding: const EdgeInsets.all(70.0),
+              child: Slider(
+                value: fontSize,
+                min: 10,
+                max: 100,
+                onChanged: (newSize) {
+                  setState(() {
+                    fontSize = newSize;
+                  });
+                },
+              ),
             )
           ]),
         ),
