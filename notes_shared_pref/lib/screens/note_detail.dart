@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:notes_shared_pref/screens/models.dart';
+import 'package:notes_shared_pref/screens/sharedpref_services.dart';
 
 class NoteDetail extends StatefulWidget {
   const NoteDetail({Key? key}) : super(key: key);
@@ -8,9 +10,12 @@ class NoteDetail extends StatefulWidget {
 }
 
 class _NoteDetailState extends State<NoteDetail> {
+  final sharedPref = SharedPref();
   final dropdownValue = ['Low', 'High'];
   final titleController = TextEditingController();
   final descController = TextEditingController();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +65,9 @@ class _NoteDetailState extends State<NoteDetail> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                saveNote();
+              },
               style: TextButton.styleFrom(
                 backgroundColor: Theme.of(context).primaryColorLight,
               ),
@@ -73,5 +80,17 @@ class _NoteDetailState extends State<NoteDetail> {
         ],
       ),
     );
+  }
+
+  void saveNote(){
+    final note = Notes(
+      title: titleController.text,
+      description: descController.text
+    );
+    print(note);
+
+    sharedPref.saveNote(note); 
+
+
   }
 }
