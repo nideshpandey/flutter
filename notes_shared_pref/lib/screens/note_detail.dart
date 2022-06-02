@@ -11,7 +11,7 @@ class NoteDetail extends StatefulWidget {
 
 class _NoteDetailState extends State<NoteDetail> {
   final sharedPref = SharedPref();
-  final dropdownValue = ['Low', 'High'];
+  final dropdownValue = ['Light', 'Dark'];
   final titleController = TextEditingController();
   final descController = TextEditingController();
 
@@ -47,7 +47,7 @@ class _NoteDetailState extends State<NoteDetail> {
             child: TextField(
               controller: titleController,
               decoration: InputDecoration(
-                  hintText: 'Title',
+                  hintText: 'Username',
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10))),
             ),
@@ -57,7 +57,7 @@ class _NoteDetailState extends State<NoteDetail> {
             child: TextField(
               controller: descController,
               decoration: InputDecoration(
-                  hintText: 'Description',
+                  hintText: 'Note',
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10))),
             ),
@@ -65,8 +65,12 @@ class _NoteDetailState extends State<NoteDetail> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: TextButton(
-              onPressed: () {
-                saveNote();
+              onPressed: () async{
+                await saveNote();
+                if(!mounted){
+                  return ;
+                }
+                Navigator.pop(context);
               },
               style: TextButton.styleFrom(
                 backgroundColor: Theme.of(context).primaryColorLight,
@@ -82,14 +86,14 @@ class _NoteDetailState extends State<NoteDetail> {
     );
   }
 
-  void saveNote(){
+  Future saveNote()async{
     final note = Notes(
-      title: titleController.text,
-      description: descController.text
+      username: titleController.text,
+      notes: descController.text
     );
     print(note);
 
-    sharedPref.saveNote(note); 
+    await sharedPref.saveNote(note); 
 
 
   }

@@ -1,6 +1,6 @@
 class Notes{
-  String title;
-  String description;
+  final String username;
+  final String notes;
 
-  Notes({required this.title,required this.description});
+  Notes({required this.username,required this.notes});
 }
