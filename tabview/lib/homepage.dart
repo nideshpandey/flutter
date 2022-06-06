@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:tabview/models.dart';
 import 'package:tabview/services.dart';
@@ -17,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     getData();
+    getDataResponse();
   }
 
   void getData() async {
@@ -26,10 +29,16 @@ class _HomePageState extends State<HomePage> {
     //print(data.name);
   }
 
+  void getDataResponse() async{
+    final res = await userService.sendData('New Title', 'New Body', 1);
+
+    print(res.body);
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -43,12 +52,16 @@ class _HomePageState extends State<HomePage> {
                 Text(
                   'Grid',
                   style: TextStyle(fontSize: 20),
+                ),
+                Text(
+                  'Text Field',
+                  style: TextStyle(fontSize: 20),
                 )
               ],
             ),
           ),
           body: TabBarView(
-            children: [listView(), gridView()],
+            children: [listView(), gridView(), textField()],
           )),
     );
   }
@@ -76,5 +89,15 @@ class _HomePageState extends State<HomePage> {
               header: Center(child: Text(data[index].name)),
               footer: Center(child: Text(data[index].username)),
               child: const Center(child: Text('Photo')))));
+  }
+
+  Widget textField(){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        TextField(
+        ),
+      ],
+    );
   }
 }

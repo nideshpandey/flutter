@@ -23,4 +23,14 @@ class UserService {
 
     return users;
   }
+
+  Future<http.Response> sendData(String title, String body, int userId) async {
+    return await http.post(
+        Uri.parse('https://jsonplaceholder.typicode.com/posts'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+            <String, dynamic>{'title': title, 'body': body, 'userId': userId}));
+  }
 }
